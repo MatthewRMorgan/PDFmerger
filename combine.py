@@ -58,9 +58,9 @@ def open_files():
 
 window = tk.Tk()
 window.title("PDF merger")
-#window.geometry('600x500')
+#window.geometry('700x700')
 
-frame1 = tk.Frame(master=window, height=100, bg="black")
+frame1 = tk.Frame(master=window, height=30, bg="black")
 frame1.pack(fill=tk.X)
 
 button = tk.Button(
