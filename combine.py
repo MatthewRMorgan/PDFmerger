@@ -4,14 +4,20 @@ from tkinter.messagebox import showinfo
 from PyPDF2 import PdfMerger
 import os
 
+#TODO: edit labels to include indices
+#TODO: add swap / reorder feature for order of PDFS
+#TODO: edit ui to be more appealing
+
 #global var for filenames
 files = []
+fileLabels = []
 
 def UploadAction(event=None):
     filename = fd.askopenfilename()
     print('Selected:', filename)
 
 def combine_files():
+    global files
     combinedFileName = "combinedPDF.pdf"
     if (files == []):
         showinfo("ERROR: no files selected")
@@ -31,10 +37,14 @@ def combine_files():
     os.remove(savedFile.name)
     #save file address, delete file, then move file from here to spot using rename
     os.rename(combinedFileName, savedFileAddress)
-    #os.remove(combinedFileName)
+    for file in fileLabels:
+        file.destroy()
+    showinfo("Success!", "Successfully stored merged PDF in: " + savedFileAddress)
+
 
 def open_files():
     global files
+    global fileLabels
     files = []
     filetypes = (
         ('PDF', '*.pdf'),
@@ -44,14 +54,15 @@ def open_files():
         title='Open a file',
         filetypes=filetypes)
     for i in range(len(filenames)):
-        label = tk.Label(
+        labelName = "label: " + str(i)
+        labelName = tk.Label(
             text=filenames[i],
             fg="black",
             bg="green",
-            width=20,
             height=3
         )
-        label.pack(fill=tk.X)
+        fileLabels.append(labelName)
+        labelName.pack(fill=tk.X, expand=True)
         #label.config(text=filename)
     files = filenames
 
@@ -61,7 +72,7 @@ window.title("PDF merger")
 #window.geometry('700x700')
 
 frame1 = tk.Frame(master=window, height=30, bg="black")
-frame1.pack(fill=tk.X)
+frame1.pack(fill=tk.X, expand=True)
 
 button = tk.Button(
     text="select PDFs",
@@ -92,8 +103,8 @@ label = tk.Label(
 button.pack(expand=True)
 frame2 = tk.Frame(master=window, height=50, bg="grey")
 #label.pack()
-frame2.pack(fill=tk.X)
-button2.pack()
+frame2.pack(fill=tk.X, expand=True)
+button2.pack(expand=True)
 
 window.mainloop()
 
