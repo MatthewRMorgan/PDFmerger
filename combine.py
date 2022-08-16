@@ -24,8 +24,13 @@ def combine_files():
     filetypes = (
         ('PDF', '*.pdf'),
     )
-    #savedFile = fd.asksaveasfile(filetypes = filetypes, defaultextension = filetypes)
-    
+
+    savedFile = fd.asksaveasfile(filetypes = filetypes, defaultextension = filetypes)
+    savedFileAddress = savedFile.name
+    savedFile.close()
+    os.remove(savedFile.name)
+    #save file address, delete file, then move file from here to spot using rename
+    os.rename(combinedFileName, savedFileAddress)
     #os.remove(combinedFileName)
 
 def open_files():
